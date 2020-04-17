@@ -43,14 +43,10 @@ public class CharacterControls : MonoBehaviour
         {
             gc.ResetLevel();
         }
-       
-        
     }
 
     private void OnApplicationQuit()
     {
         quitting = true;
     }
-
-
 }
