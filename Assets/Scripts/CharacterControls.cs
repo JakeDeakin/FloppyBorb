@@ -6,10 +6,13 @@ public class CharacterControls : MonoBehaviour
 {
     Rigidbody2D rb;
     public float jumpVelocity = 3f;
+    private GameController gc;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        gc = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -28,6 +31,7 @@ public class CharacterControls : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D c)
     {
-        print(c);
+        print("Oh no! You died!");
+        gc.ResetLevel();
     }
 }

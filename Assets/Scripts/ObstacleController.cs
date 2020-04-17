@@ -33,7 +33,7 @@ public class ObstacleController : MonoBehaviour
         if (t.position.x <= gc.oncomingObstacles.Count * gc.obstacleDistance * -1f * 0.5f)
         {
             y = Random.Range(-2.5f, 2.5f);
-            GameObject go = gc.oncomingObstacles[9];
+            GameObject go = gc.oncomingObstacles[gc.oncomingObstacles.Count - 1];
             t.position = new Vector3(go.transform.position.x + gc.obstacleDistance, y);
             gc.oncomingObstacles.RemoveAt(0);
             gc.oncomingObstacles.Add(this.gameObject);

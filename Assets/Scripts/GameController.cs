@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public int playerScore = 0;
+    public int highScore = 0;
     public List<GameObject> oncomingObstacles = new List<GameObject>() ;
     public GameObject obstacle;
     public float obstacleDistance = 5f;
     private int numObstacles = 10;
     private int firstObstaclePositon = 10;
+    public Text playerScoreUI;
+    public Text highScoreUI;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +31,7 @@ public class GameController : MonoBehaviour
     void InstantiateWorld()
     {
         //Set up the level
-        spawnObstacles(numObstacles);
+        SpawnObstacles(numObstacles);
     }
 
     void InitiateCountdown()
@@ -39,9 +43,10 @@ public class GameController : MonoBehaviour
     {
         playerScore++;
         print(playerScore);
+        playerScoreUI.text = playerScore.ToString();
     }
 
-    void spawnObstacles(int numObs)
+    void SpawnObstacles(int numObs)
     {
         float xPos = firstObstaclePositon;
         for (int i = 0; i < numObs; i++)
@@ -52,5 +57,38 @@ public class GameController : MonoBehaviour
             ob.transform.position = new Vector3(xPos, y);
             xPos = xPos + obstacleDistance;
         }
+    }
+
+    private void UpdateHighScore()
+    {
+        if (playerScore > highScore)
+        {
+            highScore = playerScore;
+            highScoreUI.text = highScore.ToString();
+        }
+    }
+
+    private void ResetPlayerScore()
+    {
+        playerScore = 0;
+        playerScoreUI.text = "0";
+    }
+
+    private void ClearObstacles()
+    {
+        
+        foreach (GameObject obj in oncomingObstacles)
+        {
+            Destroy(obj);
+        }
+        oncomingObstacles.Clear();
+    }
+
+    public void ResetLevel()
+    {
+        ClearObstacles();
+        InstantiateWorld();
+        UpdateHighScore();
+        ResetPlayerScore();
     }
 }
