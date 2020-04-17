@@ -7,6 +7,7 @@ public class CharacterControls : MonoBehaviour
     Rigidbody2D rb;
     public float jumpVelocity = 3f;
     private GameController gc;
+    private bool quitting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,18 @@ public class CharacterControls : MonoBehaviour
     private void OnBecameInvisible()
     {
         print("Oh no! You died!");
-        gc.ResetLevel();
+        if (!quitting)
+        {
+            gc.ResetLevel();
+        }
+       
+        
     }
+
+    private void OnApplicationQuit()
+    {
+        quitting = true;
+    }
+
+
 }

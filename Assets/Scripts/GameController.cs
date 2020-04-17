@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     public Text highScoreUI;
     public GameObject player;
 
+    private bool quitting;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +32,9 @@ public class GameController : MonoBehaviour
         
     }
 
+    //Set up the level
     void InstantiateWorld()
     {
-        //Set up the level
         SpawnObstacles(numObstacles);
     }
 
@@ -92,9 +94,9 @@ public class GameController : MonoBehaviour
 
     public void ResetLevel()
     {
+        UpdateHighScore();
         ClearObstacles();
         InstantiateWorld();
-        UpdateHighScore();
         ResetPlayerScore();
         SetPlayer();
     }
