@@ -34,4 +34,10 @@ public class CharacterControls : MonoBehaviour
         print("Oh no! You died!");
         gc.ResetLevel();
     }
+
+    private void OnBecameInvisible()
+    {
+        print("Oh no! You died!");
+        gc.ResetLevel();
+    }
 }

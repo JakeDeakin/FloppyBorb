@@ -14,12 +14,14 @@ public class GameController : MonoBehaviour
     private int firstObstaclePositon = 10;
     public Text playerScoreUI;
     public Text highScoreUI;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
         InstantiateWorld();
         InitiateCountdown();
+        SetPlayer();
     }
 
     // Update is called once per frame
@@ -42,7 +44,6 @@ public class GameController : MonoBehaviour
     public void UpdateScore()
     {
         playerScore++;
-        print(playerScore);
         playerScoreUI.text = playerScore.ToString();
     }
 
@@ -84,11 +85,17 @@ public class GameController : MonoBehaviour
         oncomingObstacles.Clear();
     }
 
+    private void SetPlayer()
+    {
+        player.transform.position = new Vector3(0, 0);
+    }
+
     public void ResetLevel()
     {
         ClearObstacles();
         InstantiateWorld();
         UpdateHighScore();
         ResetPlayerScore();
+        SetPlayer();
     }
 }
