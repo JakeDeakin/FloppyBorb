@@ -42,6 +42,9 @@ public class ObstacleController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D c)
     {
-        gc.UpdateScore();
+        if (c.gameObject.GetComponent<CharacterControls>().alive)
+        {
+            gc.UpdateScore();
+        }
     }
 }

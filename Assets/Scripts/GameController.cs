@@ -16,11 +16,17 @@ public class GameController : MonoBehaviour
     public Text highScoreUI;
     public GameObject player;
 
-    private bool quitting;
+    public Text deathScreenScore;
+    public Text deathScreenHighScore;
 
+    private bool quitting;
+    private bool paused = false;
+    public GameObject deathScreen;
+    private bool freezeControls = false;
     // Start is called before the first frame update
     void Start()
     {
+        deathScreen.gameObject.SetActive(false);
         InstantiateWorld();
         InitiateCountdown();
         SetPlayer();
@@ -29,7 +35,10 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (paused && Input.GetButton("Fire1") && !freezeControls)
+        {
+            ResetLevel();
+        }
     }
 
     //Set up the level
@@ -47,6 +56,7 @@ public class GameController : MonoBehaviour
     {
         playerScore++;
         playerScoreUI.text = playerScore.ToString();
+        deathScreenScore.text = "Score: " + playerScore.ToString();
     }
 
     void SpawnObstacles(int numObs)
@@ -68,6 +78,7 @@ public class GameController : MonoBehaviour
         {
             highScore = playerScore;
             highScoreUI.text = highScore.ToString();
+            deathScreenHighScore.text = "Highscore: " + highScore.ToString();
         }
     }
 
@@ -75,6 +86,7 @@ public class GameController : MonoBehaviour
     {
         playerScore = 0;
         playerScoreUI.text = "0";
+        deathScreenScore.text = "Score: " + playerScore.ToString();
     }
 
     private void ClearObstacles()
@@ -90,14 +102,42 @@ public class GameController : MonoBehaviour
     private void SetPlayer()
     {
         player.transform.position = new Vector3(0, 0);
+        player.GetComponent<CharacterControls>().alive = true;
     }
 
-    public void ResetLevel()
+    private void ResetLevel()
     {
-        UpdateHighScore();
+        //UpdateHighScore();
         ClearObstacles();
         InstantiateWorld();
         ResetPlayerScore();
         SetPlayer();
+        deathScreen.gameObject.SetActive(false);
+        paused = false;
+        Time.timeScale = 1;
+        
+        
+    }
+
+    public void PlayerDied()
+    {
+        //DeathWait();
+        PauseGame();
+        UpdateHighScore();
+    }
+
+    private void PauseGame()
+    {
+        deathScreen.gameObject.SetActive(true);
+        paused = true;
+        freezeControls = true;
+        Time.timeScale = 0;
+        StartCoroutine(DeathWait(0.5f));
+    }
+
+    IEnumerator DeathWait(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        freezeControls = false;
     }
 }

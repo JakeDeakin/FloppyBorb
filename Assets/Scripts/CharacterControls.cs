@@ -8,6 +8,7 @@ public class CharacterControls : MonoBehaviour
     public float jumpVelocity = 3f;
     private GameController gc;
     private bool quitting = false;
+    public bool alive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,8 @@ public class CharacterControls : MonoBehaviour
     void OnCollisionEnter2D(Collision2D c)
     {
         print("Oh no! You died!");
-        gc.ResetLevel();
+        alive = false;
+        gc.PlayerDied();
     }
 
     private void OnBecameInvisible()
@@ -41,7 +43,8 @@ public class CharacterControls : MonoBehaviour
         print("Oh no! You died!");
         if (!quitting)
         {
-            gc.ResetLevel();
+            alive = false;
+            gc.PlayerDied();
         }
     }
 
